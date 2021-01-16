@@ -1,0 +1,38 @@
+package heranca1;
+
+public class Program {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Account acc = new Account(1001, "Jose", 0.0);
+		BusinessAccount bacc = new BusinessAccount(1002, "Maria", 0.0, 500.0);
+		
+		//UPCASTING 
+		Account acc1 = bacc;
+		Account acc2 = new BusinessAccount(1003, "Pedro", 0.0, 200.0);
+		Account acc3 = new SavingsAccount(1004, "Ana", 0.0, 0.01);
+		Account acc4 = new Account(1005, "Joao", 0.0);
+		
+		//DOWNCASTING
+		BusinessAccount bacc2 = (BusinessAccount) acc2;
+		bacc2.loan(100.0);
+		
+		//Gera Erro, pois acc3 não é um obj do tipo BusinessAccount
+		//BusinessAccount bacc3 = (BusinessAccount) acc3;  
+		
+		//Resolvendo problma acima:
+		if(acc3 instanceof BusinessAccount) {
+			BusinessAccount bacc3 = (BusinessAccount) acc3;
+			bacc3.loan(300.0);
+			System.out.println("Loan");
+		}
+		
+		if(acc3 instanceof SavingsAccount) {
+			SavingsAccount sacc3 = (SavingsAccount) acc3;
+			sacc3.updateBalance();
+			System.out.println("Update");
+		}
+	}
+
+}

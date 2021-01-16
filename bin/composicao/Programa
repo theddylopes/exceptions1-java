@@ -1,0 +1,80 @@
+Programa Composicao
+
+package aplicacao;
+
+import java.text.ParseException;
+import composicao.Contrato;
+import composicao.Departamento;
+import composicao.Trabalhador;
+
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+import java.util.TimeZone;
+
+import javax.xml.crypto.Data;
+
+import entidade.Pedido;
+import entidade.enums.StatusPedido;
+import entidade.enums.Nivel;
+
+
+public class Programa {
+
+	public static void main(String[] args) throws ParseException {
+		
+		Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		System.out.print("Nome departamento:");
+		String nomeDepartamento = ler.nextLine();
+		
+		System.out.println("Dados do trabalhador:");
+		System.out.print("Nome:");
+		String nome = ler.nextLine();
+		
+		System.out.print("Nível:");
+		String nivel = ler.nextLine();
+		
+		System.out.print("Salario:");
+		Double salario = ler.nextDouble();
+		
+		Trabalhador tab = new Trabalhador(nome, Nivel.valueOf(nivel), salario, new Departamento(nomeDepartamento));
+		
+		System.out.println("Quantos Contratos:");
+		Integer n = ler.nextInt();
+		
+		for (int i = 1; i <= n; i++) {
+			System.out.println("Contrato " + i + ":");
+			System.out.print("Data (dd/mm/aaa):");
+			Date dataContrato = sdf.parse(ler.next());
+			System.out.print("Valor por hora:");
+			Double valorHora = ler.nextDouble();
+			System.out.print("Duracao do Contrato:");
+			Integer duracao = ler.nextInt();
+			Contrato cont = new Contrato(dataContrato, valorHora, duracao);
+			tab.adicionaContrato(cont);
+		}
+		
+		System.out.println();
+		System.out.println("Entre com mês e ano (MM/YYYY): ");
+		String mesEAno = ler.next();
+		int mes = Integer.parseInt(mesEAno.substring(0,2));
+		int ano = Integer.parseInt(mesEAno.substring(3));
+		
+		System.out.println("Nome: " + tab.getNome());
+		System.out.println("Departamento: " + tab.getDepartamento().getNome());
+		System.out.println("Ganho Mensal: " + tab.ganhoMensal(ano, mes));
+		
+		
+		ler.close();
+	}
+	
+}

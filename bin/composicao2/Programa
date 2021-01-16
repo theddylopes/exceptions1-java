@@ -1,0 +1,92 @@
+package aplicacao;
+
+import java.text.ParseException;
+import composicao.Contrato;
+import composicao.Departamento;
+import composicao.Trabalhador;
+import composicao2.Comment;
+import composicao2.Post;
+
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+import java.util.TimeZone;
+
+import javax.xml.crypto.Data;
+
+import entidade.Pedido;
+import entidade.enums.StatusPedido;
+import entidade.enums.Nivel;
+
+
+public class Programa {
+
+	public static void main(String[] args) throws ParseException {
+		
+		Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		
+	    Date d;
+	    String t;
+	    String c;
+	    Integer l;
+	    
+		//Post 1
+		d = sdf.parse("21/06/2018 13:05:44");
+		t = "Traveling to New Zealand";
+		c = "I'm going to visit this wonderful country";
+		l = 12;	
+		Post p1 = new Post(d, t, c, l);
+		
+		//Comments Post 1
+		p1.setComment(new Comment("Have a nice trip"));
+		p1.setComment(new Comment("Wow that´s awesome!"));
+		p1.setComment(new Comment("This is just more a comment"));
+		
+		//Post 2
+		d = sdf.parse("28/07/2018 23:14:19");
+		t = "Good night guys";
+		c = "See you tomorow";
+		l = 5;
+		Post p2 = new Post(d, t, c, l);
+		
+		//Coments Post 2
+		p2.setComment(new Comment("Good night"));
+		p2.setComment(new Comment("May the Force be with you"));
+		
+		//View
+		//P1
+		System.out.println(p1.getTitle());
+		System.out.println(p1.getLikes() + " Likes - " + sdf.format(p1.getMoment()));
+		System.out.println("Comments:");
+		
+		for(Comment com : p1.getComments()) {
+			System.out.println(com.getText());
+		}
+		
+		System.out.println();
+		
+		//P2
+		System.out.println(p2.getTitle());
+		System.out.println(p2.getLikes() + " Likes - " + sdf.format(p2.getMoment()));
+		System.out.println("Comments:");
+		
+		for(Comment com : p2.getComments()) {
+			System.out.println(com.getText());
+		}
+		
+		//Usando o StringBuilder
+		System.out.println();
+		System.out.println(p1.toString());
+		
+		
+		ler.close();
+	}
+	
+}

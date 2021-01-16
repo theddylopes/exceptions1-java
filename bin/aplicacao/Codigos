@@ -1,0 +1,665 @@
+
+
+
+########## Vetores ##########
+Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		int n;
+		
+		System.out.println("Digite a quantidade de produtos:");
+		n = sc.nextInt();
+		
+		Produto[] vetor = new Produto[n];
+		
+		//Lê Produtos
+		for(int i = 0; i < vetor.length; i++)
+		{
+			System.out.println("Nome do Produto " + (i+1) + ":");
+			String nome = sc.next();
+			System.out.println("Preço do Produto " + (i+1) + ":");
+			double preco = sc.nextDouble();
+			vetor[i] = new Produto(nome, preco);
+			System.out.print("\n");
+		}
+		
+		//Mostra Produtos
+		System.out.println("Dados dos produtos:");
+		for(int i = 0; i < vetor.length; i++)
+		{
+			System.out.print("Produto " + (i+1) + ": ");
+			System.out.println("Nome: " + vetor[i].getNome() + ", Preço: " + vetor[i].getPreco());
+		}
+		
+		System.out.print("\n");
+		
+		//Média dos Produtos
+		double soma = 0.0;	
+		for(int i = 0; i < vetor.length; i++)
+		{
+			soma += vetor[i].getPreco();
+		}
+		
+		double media = soma / vetor.length;
+		System.out.printf("Média de Precos: %.2f", media);
+		
+		sc.close();
+		
+		
+########## Pensionato ##########
+package aplicacao;
+
+import java.util.Locale;
+import java.util.Scanner;
+import entidade.Pensionato;
+
+
+public class Programa {
+
+	public static void main(String[] args) {
+		
+		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		Pensionato[] vetor = new Pensionato[10];
+		
+		reservaQuarto(vetor, "Ted", 9);
+		reservaQuarto(vetor, "Jose", 3);
+		reservaQuarto(vetor, "Maria", 6);
+
+		for(int i = 0; i < vetor.length; i++)
+		{
+			if(vetor[i] != null)
+			{
+				System.out.println(vetor[i].getNome() + ", " + vetor[i].getQuarto());
+			}
+		}
+		
+			
+		sc.close();
+	}
+	
+	public static void reservaQuarto(Pensionato[] vetor, String nome, int quarto)
+	{
+		for(int i = 0; i < vetor.length; i++)
+		{
+			if(i == quarto)
+			{
+				vetor[i] = new Pensionato(nome, quarto);
+			}
+		}
+	}
+}
+
+##### Teoria Lista #####
+package aplicacao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+public class Programa {
+
+	public static void main(String[] args) {
+
+		List<String> lista = new ArrayList<>();
+		
+		System.out.println("=======================");
+		System.out.println("Lista ");
+		System.out.println("=======================");
+		lista.add("Ted");
+		lista.add("Lopes");
+		lista.add("Pedro");
+		lista.add("Silva");
+		lista.add("Amora");
+		lista.add("Tereza");
+		lista.add("Paulo");
+		lista.add("Tales");
+		lista.add(2, "Abacaxi");
+		
+		
+		for(String x: lista)
+		{
+			System.out.println(x);
+		}
+		
+		System.out.println("=======================");
+		System.out.println("Remoção por predicado: ");
+		System.out.println("=======================");
+		lista.removeIf(x -> x.charAt(0) == 'A');
+		
+		
+		for(String x: lista)
+		{
+			System.out.println(x);
+		}
+		System.out.println("*** Removeu elementos com a letra A ***");
+		
+		System.out.println("=======================");
+		System.out.println("Primeiro elemento com a letra P");
+		System.out.println("=======================");
+		String elemento = lista.stream().filter(x -> x.charAt(0) == 'P').findFirst().orElse(null);
+		String elemento2 = lista.stream().filter(x -> x.charAt(0) == 'W').findFirst().orElse(null);
+		System.out.println(elemento);
+		System.out.println(elemento2);
+		
+		System.out.println("=======================");
+		System.out.println("Filtro por predicado: ");
+		System.out.println("=======================");
+		List<String> resultado = lista.stream().filter(x -> x.charAt(0) == 'T').collect(Collectors.toList());		
+		
+		for(String x: resultado)
+		{
+			System.out.println(x);
+		}
+		
+		System.out.println("*** Filtrou elementos com a letra T ***");
+		
+		System.out.println("=======================");
+		System.out.println("Posição de elemento: ");
+		System.out.println("=======================");
+		System.out.println(lista.indexOf("Silva"));
+		System.out.println(lista.indexOf("Jose"));
+		System.out.println("-1 se não encontrado");
+		
+		System.out.println("=======================");
+		System.out.print("Tamanho da Lista: " + lista.size());
+		
+		
+		
+	}	
+}
+
+####### Exercicio Lista #######
+Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+		
+		System.out.print("Quantos Funcionários serão registrados: ");
+		int N = ler.nextInt();
+		
+		List<Funcionario> lista = new ArrayList<Funcionario>();
+		
+		for(int i = 0; i < N; i++)
+		{
+			System.out.println("========================================");
+			System.out.println("Cadastro do " + (i+1) + "º funcionário:");
+			System.out.print("Digite o Id:");
+			Integer id = ler.nextInt();
+			System.out.print("Digite o Nome:");
+			ler.nextLine();
+			String nome = ler.nextLine();
+			System.out.print("Digite o Salario:");
+			Double salario = ler.nextDouble();
+			
+			Funcionario func = new Funcionario(id, nome, salario); 
+			
+			lista.add(func);
+		}
+		
+		System.out.println("Aumentando o salario:");
+		System.out.print("Id do Funcionário:");
+		Integer idEscolhido = ler.nextInt();
+		Integer pos = posicao(lista, idEscolhido);
+		if(pos == null)
+		{
+			System.out.println("Id não encontrado!");
+		}
+		else
+		{
+			System.out.print("Porcentagem a ser aumentada:");
+			Double porcentagem = ler.nextDouble();
+			lista.get(pos).aumentaSalario(porcentagem);
+		}
+		
+		
+		System.out.println("Lista de Funcionários: ");
+		for(Funcionario func: lista)
+		{
+			System.out.println(func.toString());
+		}
+		
+		
+		/*
+		Scanner ler = new Scanner(System.in);
+		
+		List<Funcionario> lista = new ArrayList<Funcionario>();
+		
+		int qtd;
+		Integer id;
+		String nome;
+		Double salario;
+		
+		System.out.print("Quantos Funcionários serão registrados: ");
+		qtd = ler.nextInt();
+		
+		for(int i = 0; i < qtd; i++)
+		{
+			System.out.println("========================================");
+			System.out.println("Cadastro do " + (i+1) + "º funcionário:");
+			System.out.print("Digite o Id:");
+			id = ler.nextInt();
+			System.out.print("Digite o Nome:");
+			nome = ler.next();
+			System.out.print("Digite o Salario:");
+			salario = ler.nextDouble();
+			lista.add(new Funcionario(id, nome, salario));
+		}
+		
+		System.out.println("========================================");
+		
+		System.out.println("Lista de Funcionários: ");
+		
+		for(Funcionario func: lista)
+		{
+			System.out.println(func.toString());
+		}
+		
+		System.out.println("========================================");
+		Integer idEscolhido;
+		Double porcentagem;
+		System.out.println("Aumentando o salario:");
+		System.out.print("Id do Funcionário:");
+		idEscolhido = ler.nextInt();
+		System.out.print("Porcentagem a ser aumentada:");
+		porcentagem = ler.nextDouble();
+		
+		System.out.println("========================================");
+		
+		for(int i = 0; i < lista.size(); i++)
+		{
+			if(lista.get(i).getId().equals(idEscolhido))
+			{
+				System.out.println("O salário do funcionário " + lista.get(i).getNome() + " foi atualizado.");
+				System.out.println("Salário Anterior: " + lista.get(i).getSalario());
+				lista.get(i).aumentaSalario(porcentagem);
+				System.out.println("Salário Atualizado: " + lista.get(i).getSalario());
+			}
+		}
+		
+		System.out.println("========================================");
+		
+		System.out.println("Lista de Funcionários: ");
+		
+		for(Funcionario func: lista)
+		{
+			System.out.println(func.toString());
+		}
+		
+		*/
+	
+	########### Exercicio Matriz ############
+	package aplicacao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import entidade.Funcionario;
+
+
+public class Programa {
+
+	public static void main(String[] args) {
+		
+		Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+		
+		System.out.println("Digite o número para a matriz quadrada: ");
+		int n = ler.nextInt();
+		int[][] matriz = new int[n][n];
+		
+		//Preenche Matriz
+		for(int i = 0; i<n; i++) 
+		{
+			System.out.println("Preenchendo a " + (i+1) + "ª linha.");
+			for(int j = 0; j<n; j++)
+			{
+				System.out.println("Dados " + (j+1) + ":");
+				matriz[i][j] = ler.nextInt();
+			}
+			System.out.println();	
+		}
+		
+		System.out.println("Matriz:");
+		//Visualiza Matriz
+		for(int i = 0; i<n; i++) 
+		{
+			for(int j = 0; j<n; j++)
+			{
+				
+				System.out.print("(" + matriz[i][j] + ") ");
+				
+			}
+			System.out.println();
+		}
+		
+		System.out.println();
+		System.out.println("Diagonal da Matriz:");
+		//Pega a diagonal
+		for(int i = 0; i<n; i++) 
+		{
+			for(int j = 0; j<n; j++)
+			{
+				if(i == j) 
+				{
+					System.out.print("(" + matriz[i][j] + ") ");
+				}
+			}
+		}
+		
+		//Resolução da Diagona também poderia ser assim:
+		/*
+		 for(int i = 0; i<n; i++) 
+		{
+			System.out.print(matriz[i][i] + " ");
+		}
+		 */
+		
+		System.out.println("\n");
+		System.out.println("Valores negativos da matriz:");
+		//Retorna números de valor negativo
+		
+		for(int i = 0; i<n; i++) 
+		{
+			for(int j = 0; j<n; j++)
+			{
+				if(matriz[i][j] < 0) 
+				{
+					System.out.print("(" + matriz[i][j] + ") ");
+				}
+			}
+		}
+		
+		System.out.println("\n");
+		System.out.println("Quantidade de números negativos:");
+		
+		System.out.println(qtdNegativos(matriz));
+		
+		ler.close();
+	}
+	
+	static int qtdNegativos(int[][] matriz) {
+		int qtd =  0;
+		for(int i = 0; i < matriz.length; i++) 
+		{
+			for(int j = 0; j < matriz[i].length; j++)
+			{
+				if(matriz[i][j] < 0) 
+				{
+				    qtd++;
+				}
+			}
+		}
+		return qtd;
+	}
+}
+	
+#### Exercicio Matriz ####
+package aplicacao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import entidade.Funcionario;
+
+
+public class Programa {
+
+	public static void main(String[] args) {
+		
+		Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+		
+		System.out.println("Digite a Quantidade de Linhas da Matriz");
+		int linhas = ler.nextInt();
+		System.out.println("Digite a Quantidade de Colunas da Matriz");
+		int colunas = ler.nextInt();
+		
+		int[][] matriz = new int[linhas][colunas];
+		
+		System.out.println("Dados da Matriz:");
+		//Recebe dados da Matriz
+		for(int i = 0; i < matriz.length; i++)
+		{
+			System.out.print("Linha " + (i+1) + ": ");
+			for(int j = 0; j < matriz[i].length; j++)
+			{
+				matriz[i][j] = ler.nextInt();
+			}
+		}
+		
+		//Mostra Matriz
+		System.out.println();
+		System.out.println("Vizinhos:");
+		System.out.print("Digite um valor da Matriz:");
+		int escolhido = ler.nextInt();
+		
+		for(int i = 0; i < matriz.length; i++)
+		{
+			for(int j = 0; j < matriz[i].length; j++)
+			{
+				if(matriz[i][j] == escolhido)
+				{
+					System.out.println("Posição do valor: (" +i+", "+j+")");
+					
+					if(!(j-1 < 0))
+					{
+						System.out.println("Esquerda: " + matriz[i][j-1]);
+					}
+					else
+					{
+						System.out.println("Sem o vizinho da esquerda.");
+					}
+					
+					if(!(i-1 < 0))
+					{
+						System.out.println("Cima: " + matriz[i-1][j]);	
+					}
+					else
+					{
+						System.out.println("Sem o vizinho de cima.");
+					}
+					
+					if(!(j+1 >= matriz[i].length))
+					{
+						System.out.println("Direita: " + matriz[i][j+1]);
+					}
+					else
+					{
+						System.out.println("Sem o vizinho da direita.");
+					}
+					
+					if(!(i+1 >= matriz.length))
+					{
+						System.out.println("Baixo: " + matriz[i+1][j]);
+					}
+					else
+					{
+						System.out.println("Sem o vizinho de baixo.");
+					}
+					
+				}
+				
+			}
+			System.out.println();
+		}
+	
+		ler.close();
+	}
+	
+}
+	
+########## Datas ###########
+package aplicacao;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
+
+import entidade.Funcionario;
+
+
+public class Programa {
+
+	public static void main(String[] args) throws ParseException {
+		
+		Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		
+		SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		sdf3.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
+		Date d = sdf.parse("25/06/2018");
+		Date d2 = sdf2.parse("25/06/2018 15:43:08");
+		
+		
+		Date agora = new Date();
+		Date agora2 = new Date(System.currentTimeMillis());
+		Date teste = new Date(0L); //suixo L indica que é Long
+		
+		//Um segundo = 1000 milisegundos, isso x 60 = 1min, isso x 60 = 1h, isso x 5 = 5h.
+		//Como a máquina está no Brasil, ela ainda está 3 horas atrasada comparada ao horário UTC.
+		Date teste2 = new Date(1000L * 60L * 60L * 5L);
+		
+		//
+		Date dataIso = Date.from(Instant.parse("2018-06-25T15:42:07Z"));
+		
+		System.out.println(sdf.format(d));
+		System.out.println(sdf2.format(d2));
+		System.out.println(sdf2.format(agora));
+		System.out.println(sdf2.format(agora2));
+		System.out.println(sdf2.format(teste));
+		System.out.println(sdf2.format(teste2));
+		
+		//Data com a diferença do UTC
+		System.out.println(sdf2.format(dataIso));
+		//Problema acima resolvido com a definição do TimeZine
+		System.out.println(sdf3.format(dataIso));
+		
+		ler.close();
+	}
+	
+}
+	
+##### SEI LÁ #######
+
+package aplicacao;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
+
+import composicao3.Client;
+import composicao3.Order;
+import composicao3.OrderItem;
+import composicao3.Product;
+import entidade.enums.OrderStatus;
+
+public class Programa {
+
+	public static void main(String[] args) throws ParseException {
+		
+		Locale.setDefault(Locale.US);
+		Scanner ler = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		System.out.println("Enter client data:");
+		System.out.print("Name: ");
+		String nome = ler.next();
+		
+		System.out.print("Email: ");
+		String email = ler.next();
+		
+		System.out.print("Birth date: ");
+		String birth = ler.next();
+	   
+		//Cliente
+		Client c1 = new Client(nome, email, sdf.parse(birth));
+		
+		//Instanciando meu pedido
+		System.out.println("Enter order data:");
+		System.out.print("Status: ");
+		String status = ler.next();
+		
+		Order o = new Order(new Date(), OrderStatus.valueOf(status), c1);
+		
+		System.out.println("How many items to this order?");
+		Integer n = ler.nextInt();
+		
+		for(int i = 0; i < n; i++) {
+			//Criando Produto
+			System.out.println("Enter #" + (i+1) + " item data:");
+			System.out.println("Product name: ");
+			String prodName = ler.next();
+			System.out.println("Product price: ");
+			Double prodPrice = ler.nextDouble();
+			Product p = new Product(prodName, prodPrice);
+			
+			//Criando Item do Pedido
+			System.out.println("Quantity: ");
+			Integer prodQuantity = ler.nextInt();
+			OrderItem oi = new OrderItem(prodQuantity, p.getPrice(), p);
+			
+			//Adicionando o item do Pedido a minha Lista do Pedido
+			o.addItem(oi);
+		}
+			
+		System.out.println(o.toString());
+		
+		ler.close();
+	}
+	
+}
+
+#### Exceptions ####
+package aplicacao;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Programa {
+
+	public static void main(String[] args) {
+	
+		File file = new File("C:\\temp\\in.txt");
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+			while (sc.hasNextLine()) {
+			System.out.println(sc.nextLine());
+			}
+		}
+		catch (IOException e) {
+		System.out.println("Error opening file: " + e.getMessage());
+		}
+		finally {
+			if (sc != null) {
+				sc.close();
+			}
+			System.out.println("*** Finally Executed ***");
+		}
+		
+	}
+	
+	
+}
+
+ 		
