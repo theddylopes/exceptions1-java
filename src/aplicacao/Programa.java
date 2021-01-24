@@ -36,19 +36,12 @@ public class Programa {
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(ler.next());
 			
-			Date now = new Date();
-			if(checkIn.before(now) || checkOut.before(now)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
+			String error = r1.updateDates(checkIn, checkOut);
+			if(error != null) {
+				System.out.println("Error in reservation:" + error);
 			}
 			else {
-				if(!checkOut.after(checkIn)) {
-					System.out.println("Error in reservation: Check-out date must be after check-in date.");
-				}
-				else {
-					r1.updateDates(checkIn, checkOut);
-					System.out.println("Reservation: " + r1);
-				}
-				
+				System.out.println("Reservation: " + r1);
 			}
 			
 		}
